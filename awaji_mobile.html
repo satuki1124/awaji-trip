@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>淡路島の旅 6/3-4</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sea:#1a5f7a; --sea2:#2e89ab; --pale:#e8f4f9;
+  --sand:#f7f2eb; --sand2:#ede5d8;
+  --ink:#1a1a1e; --sub:#5a5a6a; --white:#fff;
+  --radius:16px; --radius-sm:10px;
+  --safe-bottom: env(safe-area-inset-bottom, 16px);
+  /* カテゴリ色 */
+  --ferry:#1a5f7a; --ferry-bg:#e0f2f9;
+  --bus:#2d6a4f;   --bus-bg:#e0f2ea;
+  --spot:#b5681e;  --spot-bg:#fdebd8;
+  --food:#9b3a4a;  --food-bg:#fce8ec;
+  --hotel:#5c3d7a; --hotel-bg:#ede8f5;
+  --taxi:#7a5c1a;  --taxi-bg:#fef3d8;
+  --free:#1a7a6b;  --free-bg:#ddf2ee;
+  --onion:#7a6b1a; --onion-bg:#faf5d8;
+  --manyo:#1a7a6b; --manyo-bg:#ddf2ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  background:var(--sand);color:var(--ink);
+  padding-bottom:calc(72px + var(--safe-bottom));
+  font-size:15px;line-height:1.6;
+}
+
+/* ── COVER ── */
+.cover{
+  background:linear-gradient(160deg,#0c3d52 0%,#1a5f7a 50%,#1d7a68 100%);
+  color:#fff;padding:48px 20px 64px;position:relative;overflow:hidden;
+}
+.cover::after{
+  content:'';position:absolute;bottom:-2px;left:0;right:0;height:48px;
+  background:var(--sand);clip-path:ellipse(60% 100% at 50% 100%);
+}
+.cover-wave{
+  position:absolute;inset:0;opacity:.05;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 20px,#fff 20px,#fff 22px);
+}
+.cover-inner{position:relative;z-index:1;}
+.cover-label{font-size:10px;letter-spacing:5px;color:rgba(255,255,255,.5);margin-bottom:12px;}
+.cover-title{
+  font-family:'Shippori Mincho',serif;font-size:44px;font-weight:700;
+  line-height:1.1;margin-bottom:8px;letter-spacing:-1px;
+}
+.cover-date{font-size:14px;color:rgba(255,255,255,.7);margin-bottom:24px;}
+.cover-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{
+  font-size:12px;padding:5px 12px;border-radius:20px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+}
+
+/* ── ALERT BANNER ── */
+.alert{
+  background:linear-gradient(90deg,#1e6e50,#1a7a6b);
+  color:#fff;padding:12px 18px;font-size:13px;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:#fff;border-top:1px solid #e0e0e0;
+  display:flex;padding:8px 0 calc(8px + var(--safe-bottom));
+  z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.08);
+}
+.bnav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10px;font-weight:500;color:var(--sub);
+  padding:4px 0;border:none;background:none;cursor:pointer;
+  text-decoration:none;
+}
+.bnav-item.active{color:var(--sea);}
+.bnav-icon{font-size:22px;line-height:1;}
+
+/* ── DAY SECTION ── */
+.day-section{padding:0 0 8px;}
+.day-header{
+  position:sticky;top:0;z-index:50;
+  background:var(--white);
+  border-bottom:3px solid var(--sea);
+  padding:14px 18px 12px;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+.day-num{
+  font-family:'Shippori Mincho',serif;font-size:42px;font-weight:700;
+  color:var(--sea);line-height:1;flex-shrink:0;
+}
+.day-info-wrap{flex:1;min-width:0;}
+.day-title{font-size:14px;font-weight:700;color:var(--ink);}
+.day-sub{font-size:11px;color:var(--sub);margin-top:2px;}
+.day-badge{
+  font-size:12px;font-weight:700;padding:4px 12px;
+  border-radius:20px;background:var(--sea);color:#fff;
+  flex-shrink:0;white-space:nowrap;
+}
+
+/* ── TIMELINE ── */
+.timeline{padding:8px 16px 0;}
+.entry{display:flex;gap:0;margin-bottom:4px;position:relative;}
+
+/* 時刻列 */
+.time-col{
+  width:58px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:flex-end;
+  padding-right:10px;padding-top:18px;
+}
+.time-main{font-size:13px;font-weight:700;color:var(--ink);line-height:1.2;}
+.time-arrow{font-size:10px;color:var(--sub);}
+.time-end{font-size:13px;font-weight:700;color:var(--sub);line-height:1.2;}
+
+/* 縦線 + ドット */
+.dot-col{
+  width:24px;flex-shrink:0;display:flex;flex-direction:column;
+  align-items:center;position:relative;
+}
+.dot-col::before{
+  content:'';position:absolute;top:0;bottom:-4px;left:50%;
+  width:2px;background:var(--sand2);transform:translateX(-50%);
+  z-index:0;
+}
+.dot{
+  width:18px;height:18px;border-radius:50%;border:2.5px solid;
+  background:var(--white);flex-shrink:0;margin-top:18px;
+  position:relative;z-index:1;
+}
+.dot.ferry {border-color:var(--ferry);background:var(--ferry-bg);}
+.dot.bus   {border-color:var(--bus);  background:var(--bus-bg);}
+.dot.spot  {border-color:var(--spot); background:var(--spot-bg);}
+.dot.food  {border-color:var(--food); background:var(--food-bg);}
+.dot.hotel {border-color:var(--hotel);background:var(--hotel-bg);}
+.dot.taxi  {border-color:var(--taxi); background:var(--taxi-bg);}
+.dot.free  {border-color:var(--free); background:var(--free-bg);}
+.dot.onion {border-color:var(--onion);background:var(--onion-bg);}
+.dot.manyo {border-color:var(--manyo);background:var(--manyo-bg);}
+
+/* カード */
+.card{
+  flex:1;min-width:0;
+  background:var(--white);border-radius:var(--radius);
+  padding:14px 16px;margin-left:10px;margin-bottom:4px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  border:1px solid rgba(0,0,0,.04);
+}
+.card.onion-card{background:var(--onion-bg);border-color:#d4c87a;}
+.card.manyo-card{background:var(--manyo-bg);border-color:#9fd6ce;}
+
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.card-title{font-size:15px;font-weight:700;line-height:1.35;flex:1;}
+.badge{
+  font-size:10px;font-weight:700;border-radius:6px;padding:3px 8px;
+  white-space:nowrap;flex-shrink:0;
+}
+.b-ferry {background:var(--ferry-bg);color:var(--ferry);}
+.b-bus   {background:var(--bus-bg);  color:var(--bus);}
+.b-spot  {background:var(--spot-bg); color:var(--spot);}
+.b-food  {background:var(--food-bg); color:var(--food);}
+.b-hotel {background:var(--hotel-bg);color:var(--hotel);}
+.b-taxi  {background:var(--taxi-bg); color:var(--taxi);}
+.b-free  {background:var(--free-bg); color:var(--free);}
+.b-onion {background:var(--onion-bg);color:var(--onion);}
+.b-manyo {background:var(--manyo-bg);color:var(--manyo);}
+
+.card-body{font-size:13.5px;color:var(--sub);line-height:1.7;}
+.card-body b{color:var(--ink);font-weight:700;}
+
+/* 時刻ボックス */
+.tbox{
+  border-radius:var(--radius-sm);padding:10px 13px;margin-top:10px;
+}
+.tbox.green{background:#edf8f2;border:1.5px solid #b8ddc8;}
+.tbox.blue {background:#eaf5fb;border:1.5px solid #a8d8eb;}
+.tbox.amber{background:#fff8ed;border:1.5px solid #f0c87a;}
+.tbox.teal {background:#e8f8f5;border:1.5px solid #9fd6ce;}
+.tbox.onion{background:#fdfaf0;border:1.5px solid #d4c87a;}
+.tbox-title{font-size:11px;font-weight:700;margin-bottom:6px;}
+.tbox-title.green{color:var(--bus);}
+.tbox-title.blue {color:var(--ferry);}
+.tbox-title.amber{color:#7a5200;}
+.tbox-title.teal {color:var(--free);}
+.tbox-title.onion{color:var(--onion);}
+.trow{
+  display:flex;align-items:baseline;gap:6px;
+  padding:4px 0;border-bottom:1px dashed rgba(0,0,0,.08);
+  font-size:13px;
+}
+.trow:last-of-type{border-bottom:none;}
+.ttime{font-weight:700;min-width:44px;flex-shrink:0;}
+.ttime.green{color:var(--bus);}
+.ttime.blue {color:var(--ferry);}
+.ttime.teal {color:var(--free);}
+.tstop{color:var(--ink);line-height:1.4;font-size:13px;}
+.tnote{font-size:11px;margin-top:4px;line-height:1.5;}
+.tnote.green{color:#3d7a5a;}
+.tnote.amber{color:#7a5200;}
+
+/* 地図ボタン */
+.map-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--sea);color:#fff;border-radius:10px;
+  padding:11px 14px;font-size:13px;font-weight:700;
+  text-decoration:none;margin-top:10px;
+  transition:background .15s;
+  -webkit-touch-callout:none;
+}
+.map-btn:active{background:var(--sea2);}
+.map-btn svg{flex-shrink:0;}
+
+/* 無料バッジ */
+.free-stamp{
+  display:inline-flex;align-items:center;
+  background:var(--free);color:#fff;
+  border-radius:20px;padding:3px 10px;
+  font-size:11px;font-weight:700;margin-left:6px;
+  vertical-align:middle;
+}
+
+/* 仕切り */
+.day-divider{height:10px;background:var(--sand2);margin:4px 0;}
+
+/* FOOTER */
+.footer{background:var(--sea);color:rgba(255,255,255,.8);padding:28px 20px 20px;}
+.footer-h{font-family:'Shippori Mincho',serif;font-size:17px;color:#fff;margin-bottom:14px;}
+.frow{display:flex;gap:10px;align-items:flex-start;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.1);}
+.frow:last-of-type{border-bottom:none;}
+.flabel{color:rgba(255,255,255,.5);min-width:90px;flex-shrink:0;font-size:12px;padding-top:1px;}
+.fval{color:#fff;font-size:13px;line-height:1.5;}
+.flink{color:#a8d8eb;text-decoration:none;font-size:13px;}
+.fdis{font-size:10px;color:rgba(255,255,255,.3);text-align:center;margin-top:16px;line-height:1.6;}
+hr.fhr{border:none;border-top:1px solid rgba(255,255,255,.15);margin:16px 0;}
+
+/* legend */
+.legend-wrap{
+  padding:12px 16px;display:flex;flex-wrap:wrap;gap:10px 14px;
+  border-bottom:1px solid var(--sand2);background:var(--white);
+}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--sub);}
+.ldot{width:11px;height:11px;border-radius:50%;flex-shrink:0;border:2px solid;}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover" id="top">
+  <div class="cover-wave"></div>
+  <div class="cover-inner">
+    <p class="cover-label">TRAVEL GUIDE ✦ AWAJI ISLAND</p>
+    <h1 class="cover-title">淡路島<br>旅のしおり</h1>
+    <p class="cover-date">2026年 6月3日（火）〜 4日（水）　1泊2日</p>
+    <div class="cover-pills">
+      <span class="pill">🚢 フェリー＋バス旅</span>
+      <span class="pill">♨ 洲本温泉 夢海游</span>
+      <span class="pill">🧅 うずの丘</span>
+      <span class="pill">🛁 万葉の湯で締め</span>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div class="alert">
+  🎉 <span><b>うずループ無料シャトル</b>が6/30まで運行中！うずの丘がバスだけで行けます</span>
+</div>
+
+<!-- LEGEND -->
+<div class="legend-wrap">
+  <div class="leg"><div class="ldot" style="background:var(--ferry-bg);border-color:var(--ferry)"></div>フェリー</div>
+  <div class="leg"><div class="ldot" style="background:var(--bus-bg);border-color:var(--bus)"></div>バス</div>
+  <div class="leg"><div class="ldot" style="background:var(--spot-bg);border-color:var(--spot)"></div>観光</div>
+  <div class="leg"><div class="ldot" style="background:var(--food-bg);border-color:var(--food)"></div>グルメ</div>
+  <div class="leg"><div class="ldot" style="background:var(--hotel-bg);border-color:var(--hotel)"></div>宿泊</div>
+  <div class="leg"><div class="ldot" style="background:var(--taxi-bg);border-color:var(--taxi)"></div>タクシー</div>
+  <div class="leg"><div class="ldot" style="background:var(--free-bg);border-color:var(--free)"></div>無料バス</div>
+  <div class="leg"><div class="ldot" style="background:var(--onion-bg);border-color:var(--onion)"></div>たまねぎ</div>
+</div>
+
+<!-- ========== DAY 1 ========== -->
+<div class="day-section" id="day1">
+  <div class="day-header">
+    <div class="day-num">01</div>
+    <div class="day-info-wrap">
+      <div class="day-title">フェリー上陸 → 岩屋・北部 → 洲本温泉</div>
+      <div class="day-sub">タコステ・ニジゲンノモリ・明石海峡公園・パンケーキ</div>
+    </div>
+    <div class="day-badge">6/3 火</div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- 新大阪出発 -->
+    <div class="entry">
+      <div class="time-col"><span class="time-main">07:00</span></div>
+      <div class="dot-col"><div class="dot ferry"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">新大阪出発 → 明石港へ</div><span class="badge b-ferry">電車 40分</span></div>
+        <div class="card-body">JR新大阪駅 → JR明石駅（新快速 40分・1,100円）<br>→ 徒歩10分 → 明石港</div>
+        <div class="tbox blue">
+          <div class="tbox-title blue">🚉 新大阪→明石 おすすめ電車</div>
+          <div class="trow"><span class="ttime blue">07:00発</span><span class="tstop">→ 07:40 明石着（新快速）</span></div>
+          <div class="trow"><span class="ttime blue">07:30発</span><span class="tstop">→ 08:10 明石着（新快速）</span></div>
+          <div class="trow"><span class="ttime blue">08:00発</span><span class="tstop">→ 08:40 明石着（新快速）</span></div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/%E6%96%B0%E5%A4%A7%E9%98%AA%E9%A7%85%E3%80%81%E5%A4%A7%E9%98%AA%E5%BA%9C/34.6463,134.9993/@34.6836949,135.083323,11z/am=t/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x6000e4396c12ce49:0x3bd7c4e0bf1076cf!2m2!1d135.5002547!2d34.7334658!1m0!2m3!6e0!7e2!8j1780470000!3e3?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>新大阪 → 明石港（Googleマップ）
+        </a>
+      </div>
+    </div>
+
+    <!-- ジェノバライン -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">08:00</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">08:13</span>
+      </div>
+      <div class="dot-col"><div class="dot ferry"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">⛴ 淡路ジェノバライン 乗船</div><span class="badge b-ferry">13分</span></div>
+        <div class="card-body">明石港 → 岩屋港（片道530円）<br>明石海峡大橋をくぐる爽快な13分！</div>
+        <div class="tbox blue">
+          <div class="tbox-title blue">⛴ 明石→岩屋 平日ダイヤ</div>
+          <div class="trow"><span class="ttime blue">08:00発</span><span class="tstop">→ 08:13 岩屋港着</span></div>
+          <div class="trow"><span class="ttime blue">08:30発</span><span class="tstop">→ 08:43 岩屋港着</span></div>
+          <div class="trow"><span class="ttime blue">09:00発</span><span class="tstop">→ 09:13 岩屋港着</span></div>
+          <div class="trow"><span class="ttime blue">09:30発</span><span class="tstop">→ 09:43 岩屋港着</span></div>
+        </div>
+        <a class="map-btn" href="https://www.jenova-line.co.jp/jikoku.cgi" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>ジェノバライン 公式時刻表
+        </a>
+      </div>
+    </div>
+
+    <!-- お魚共和国 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">08:15</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">09:30</span>
+      </div>
+      <div class="dot-col"><div class="dot food"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🐟 お魚共和国 えびす丸</div><span class="badge b-food">グルメ 75分</span></div>
+        <div class="card-body">岩屋港から<b>徒歩2分</b>。9:30オープン。<br>新鮮な海産物で朝ごはん代わりに！</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.6016,135.0150&destination=34.6016,135.0090&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>岩屋港 → お魚共和国（徒歩）
+        </a>
+      </div>
+    </div>
+
+    <!-- お魚→タコステ 徒歩 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">09:30</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">09:40</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">お魚共和国 → タコステ</div><span class="badge b-bus">徒歩 10分</span></div>
+        <div class="card-body">岩屋商店街を抜けて徒歩10分。明石海峡大橋が近づく景色を楽しんで！</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.6016,135.0090&destination=34.5924,135.0150&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>お魚共和国 → タコステ（徒歩）
+        </a>
+      </div>
+    </div>
+
+    <!-- タコステ -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">09:40</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">11:00</span>
+      </div>
+      <div class="dot-col"><div class="dot spot"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🐙 淡路島タコステ & たこぺったん</div><span class="badge b-spot">観光 80分</span></div>
+        <div class="card-body">名物「たこぺったん」を食べながら明石海峡大橋を一望！10:00〜営業。<br>👉 <b>11:00出発</b> → 岩屋PTへ徒歩10分</div>
+      </div>
+    </div>
+
+    <!-- 岩屋PT→淡路IC -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">11:26</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">11:36</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">岩屋PT → 淡路IC（高速バス）</div><span class="badge b-bus">バス 10分</span></div>
+        <div class="card-body">タコステから徒歩10分で岩屋PT。</div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 大磯号 / かけはし号</div>
+          <div class="trow"><span class="ttime green">11:26発</span><span class="tstop">→ 11:36 淡路IC着</span></div>
+          <div class="trow"><span class="ttime green">11:56発</span><span class="tstop">→ 12:06 淡路IC着</span></div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.6016,135.0150&destination=34.5752,135.0008&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>岩屋PT → 淡路IC（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- ニジゲンノモリ -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">11:40</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">12:20</span>
+      </div>
+      <div class="dot-col"><div class="dot spot"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🦖 ニジゲンノモリ（外観・無料）</div><span class="badge b-spot">外観 40分</span></div>
+        <div class="card-body">淡路ICから徒歩5分。ゴジラの巨大頭部オブジェを無料エリアから見学！<br>👉 <b>12:20出発</b> → バスで明石海峡公園へ</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5752,135.0008&destination=34.5752,135.0008&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>ニジゲンノモリ 場所確認
+        </a>
+      </div>
+    </div>
+
+    <!-- ニジゲンノモリ→明石海峡公園 40分 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">12:20</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">13:00</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">ニジゲンノモリ → 明石海峡公園</div><span class="badge b-bus">バス 40分</span></div>
+        <div class="card-body">Googleマップ実測40分。淡路夢舞台方面経由。</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/%E3%83%8B%E3%82%B8%E3%82%B2%E3%83%B3%E3%83%8E%E3%83%A2%E3%83%AA%E3%80%81%E3%80%92656-2301+%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%B7%A1%E8%B7%AF%E5%B8%82%E6%A5%A0%E6%9C%AC2425%E7%95%AA2%E5%8F%B7/%E5%9B%BD%E5%96%B6%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%A1%E5%85%AC%E5%9C%92%E3%80%81%E3%80%92656-2306+%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%B7%A1%E8%B7%AF%E5%B8%82%E5%A4%A2%E8%88%9E%E5%8F%B0%EF%BC%98%E2%88%92%EF%BC%91%EF%BC%90/@34.595606,134.97669,13z/data=!4m14!4m13!1m5!1m1!1s0x3554d3b046f07ee5:0xa2aed163d2142ef2!2m2!1d135.000751!2d34.575173!1m5!1m1!1s0x600082b4e578b14d:0x13956a023fce75e5!2m2!1d135.0121138!2d34.564168!3e3?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>ニジゲンノモリ → 明石海峡公園（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 明石海峡公園 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">13:00</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">14:10</span>
+      </div>
+      <div class="dot-col"><div class="dot spot"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🌸 国営明石海峡公園</div><span class="badge b-spot">観光 70分</span></div>
+        <div class="card-body">6月の初夏の花と瀬戸内海の絶景。入場410円。<br>👉 <b>14:10出発</b> → パンケーキへ（バス30分）</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/%E3%83%8B%E3%82%B8%E3%82%B2%E3%83%B3%E3%83%8E%E3%83%A2%E3%83%AA%E3%80%81%E3%80%92656-2301+%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%B7%A1%E8%B7%AF%E5%B8%82%E6%A5%A0%E6%9C%AC2425%E7%95%AA2%E5%8F%B7/%E5%9B%BD%E5%96%B6%E6%98%8E%E7%9F%B3%E6%B5%B7%E5%B3%A1%E5%85%AC%E5%9C%92%E3%80%81%E3%80%92656-2306+%E5%85%B5%E5%BA%AB%E7%9C%8C%E6%B7%A1%E8%B7%AF%E5%B8%82%E5%A4%A2%E8%88%9E%E5%8F%B0%EF%BC%98%E2%88%92%EF%BC%91%EF%BC%90/@34.595606,134.97669,13z/data=!4m14!4m13!1m5!1m1!1s0x3554d3b046f07ee5:0xa2aed163d2142ef2!2m2!1d135.000751!2d34.575173!1m5!1m1!1s0x600082b4e578b14d:0x13956a023fce75e5!2m2!1d135.0121138!2d34.564168!3e3?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>明石海峡公園 場所確認
+        </a>
+      </div>
+    </div>
+
+    <!-- 明石海峡公園→パンケーキ -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">14:27</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">14:57</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">明石海峡公園 → パンケーキ前</div><span class="badge b-bus">バス 30分</span></div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 神姫バス「三ノ宮・西浦線」</div>
+          <div class="trow"><span class="ttime green">14:27発</span><span class="tstop">→ 14:57 幸せのパンケーキ前着</span></div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5642,135.0121&destination=34.5130,134.8694&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>明石海峡公園 → パンケーキ前（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- パンケーキ -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">15:00</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">16:00</span>
+      </div>
+      <div class="dot-col"><div class="dot food"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🥞 幸せのパンケーキ 淡路島リゾート</div><span class="badge b-food">グルメ 60分</span></div>
+        <div class="card-body">全席オーシャンビュー。岬のブランコ・幸せの鐘も。<br>👉 <b>16:00 厳守で出発！</b></div>
+        <div class="tbox amber">
+          <div class="tbox-title amber">⏰ 時間厳守！次のバスに注意</div>
+          <div class="card-body" style="color:#7a5200;font-size:13px;">16:00に出て北淡ICへ。高速バス「北淡IC→洲本BC」を利用。</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5130,134.8694&destination=34.5130,134.8694&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>幸せのパンケーキ 場所確認
+        </a>
+      </div>
+    </div>
+
+    <!-- パンケーキ→洲本BC -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">16:10</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">17:10</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">北淡IC → 洲本BC（高速バス）</div><span class="badge b-bus">バス 60分</span></div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 淡路交通「三ノ宮・洲本線」</div>
+          <div class="trow"><span class="ttime green">16:xx発</span><span class="tstop">北淡IC → 洲本BC（約60分）</span></div>
+          <div class="tnote green">※北淡ICまでパンケーキ前から徒歩約5分</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5130,134.8694&destination=34.3408,134.8952&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>パンケーキ前 → 洲本BC（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 夢海游 -->
+    <div class="entry">
+      <div class="time-col"><span class="time-main">17:30</span></div>
+      <div class="dot-col"><div class="dot hotel"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🏨 夢海游 淡路島 チェックイン</div><span class="badge b-hotel">宿泊</span></div>
+        <div class="card-body">洲本BCから無料送迎で約5分。<br>送迎バス：<b>14:10 / 14:40 / 15:10 / 15:40 / 16:10 / 16:40 / 17:10</b><br>📞 要事前予約 <b>0570-079-922</b></div>
+        <div class="tbox teal">
+          <div class="tbox-title teal">🛁 夜は温泉＆夕食</div>
+          <div class="card-body" style="color:#1a5f5a;font-size:13px;">洲本温泉の露天風呂・大浴場でリフレッシュ。淡路牛＆海鮮会席を堪能！</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.3408,134.8952&destination=34.3399,134.9039&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>洲本BC → 夢海游（経路）
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="day-divider"></div>
+
+<!-- ========== DAY 2 ========== -->
+<div class="day-section" id="day2">
+  <div class="day-header">
+    <div class="day-num">02</div>
+    <div class="day-info-wrap">
+      <div class="day-title">花さじき → うずの丘 → 万葉の湯</div>
+      <div class="day-sub">花さじきタクシー → うずループで玉ねぎパーク → 三宮で締め</div>
+    </div>
+    <div class="day-badge">6/4 水</div>
+  </div>
+
+  <div class="timeline">
+
+    <!-- チェックアウト -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">08:00</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">09:00</span>
+      </div>
+      <div class="dot-col"><div class="dot hotel"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">朝食・チェックアウト</div><span class="badge b-hotel">ホテル</span></div>
+        <div class="card-body">ゆっくり朝食後チェックアウト。<br>👉 送迎バスで洲本BCへ（<b>9:05発 または 9:35発</b>）</div>
+      </div>
+    </div>
+
+    <!-- 洲本BC→夢舞台 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">09:55</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">10:45</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">洲本BC → 淡路夢舞台前</div><span class="badge b-bus">バス 50分</span></div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 岩屋洲本線（平日のみ・均一500円）</div>
+          <div class="trow"><span class="ttime green">09:55発</span><span class="tstop">→ 10:45ごろ 淡路夢舞台前着</span></div>
+          <div class="tnote green">※「淡路夢舞台前」で下車してタクシーへ</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.3408,134.8952&destination=34.5528,135.0055&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>洲本BC → 淡路夢舞台前（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 夢舞台→花さじき タクシー -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">10:45</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">11:00</span>
+      </div>
+      <div class="dot-col"><div class="dot taxi"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🚕 夢舞台前 → あわじ花さじき</div><span class="badge b-taxi">タクシー 15分</span></div>
+        <div class="card-body">平日はバスなし。片道約1,500〜2,000円。</div>
+        <div class="tbox amber">
+          <div class="tbox-title amber">📞 タクシー手配先</div>
+          <div class="card-body" style="color:#7a5200;font-size:13px;">
+            淡路市共同配車：<b>0799-72-3050</b><br>
+            淡路交通タクシー：<b>0799-22-3101</b><br>
+            ※「花さじき往復で」と伝えると待機してくれる場合も
+          </div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5528,135.0055&destination=34.5536,134.9780&travelmode=driving" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>夢舞台 → 花さじき（タクシー経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 花さじき -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">11:00</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">12:15</span>
+      </div>
+      <div class="dot-col"><div class="dot spot"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🌺 あわじ花さじき</div><span class="badge b-spot">観光 75分 無料</span></div>
+        <div class="card-body">海を見下ろす丘の花園。6月も絶景は最高！<br>👉 <b>12:15出発</b> → タクシーで東浦BTへ（10分）</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5536,134.9780&destination=34.5536,134.9780&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>あわじ花さじき 場所確認
+        </a>
+      </div>
+    </div>
+
+    <!-- 花さじき→東浦BT タクシー -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">12:15</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">12:25</span>
+      </div>
+      <div class="dot-col"><div class="dot taxi"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">🚕 花さじき → 東浦バスターミナル</div><span class="badge b-taxi">タクシー 10分</span></div>
+        <div class="card-body">片道約1,000〜1,500円。<br>📍 <b>12:25ごろ東浦BT着</b> → 12:54発のバスへ！</div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5536,134.9780&destination=34.5412,135.0023&travelmode=driving" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>花さじき → 東浦BT（タクシー経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 東浦BT→陸の港西淡 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">12:54</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">13:39</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">東浦BT → 陸の港西淡（高速バス）</div><span class="badge b-bus">バス 45分</span></div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 舞子・福良線（淡路交通）</div>
+          <div class="trow"><span class="ttime green">12:54発</span><span class="tstop">→ 13:39 陸の港西淡着 ⭐乗るべき便</span></div>
+          <div class="trow"><span class="ttime green">13:54発</span><span class="tstop">→ 14:39 陸の港西淡着（次の便）</span></div>
+          <div class="tnote green">※12:54発に乗ると14:35のうずループに乗継ぎできる！</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.5412,135.0023&destination=34.3212,134.8352&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>東浦BT → 陸の港西淡（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- うずループ -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">14:35</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">15:00</span>
+      </div>
+      <div class="dot-col"><div class="dot free"></div></div>
+      <div class="card">
+        <div class="card-top">
+          <div class="card-title">陸の港西淡 → うずの丘<span class="free-stamp">無料</span></div>
+          <span class="badge b-free">25分</span>
+        </div>
+        <div class="card-body">13:39着後、14:35まで約1時間。近くでお土産・食事を。<br>📍 <b>14:35発 → 15:00 うずの丘着</b></div>
+        <div class="tbox teal">
+          <div class="tbox-title teal">🚌 うずループ 無料シャトル時刻</div>
+          <div class="trow"><span class="ttime teal">14:35発</span><span class="tstop">→ 15:00 うずの丘着</span></div>
+          <div class="trow"><span class="ttime teal">16:15発</span><span class="tstop">→ 16:40 陸の港西淡着（折り返し）</span></div>
+          <div class="tnote green">※6/30まで運行。最新時刻は南あわじ市HPで確認！</div>
+        </div>
+        <a class="map-btn" href="https://www.city.minamiawaji.hyogo.jp/soshiki/shoukou/uzuloopbus.html" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>🚌 うずループ 公式時刻表
+        </a>
+      </div>
+    </div>
+
+    <!-- うずの丘 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">15:00</span>
+        <span class="time-arrow">〜</span>
+        <span class="time-end">16:15</span>
+      </div>
+      <div class="dot-col"><div class="dot onion"></div></div>
+      <div class="card onion-card">
+        <div class="card-top"><div class="card-title">🧅 うずの丘 大鳴門橋記念館</div><span class="badge b-onion">75分 無料</span></div>
+        <div class="card-body">巨大タマネギオブジェ・大鳴門橋の絶景・たまねぎグルメ300品以上！<br>👉 <b>16:15出発</b> → うずループで陸の港西淡へ</div>
+        <div class="tbox onion">
+          <div class="tbox-title onion">🧅 見どころ</div>
+          <div class="card-body" style="color:var(--onion);font-size:13px;">
+            ● おっタマげ！なオブジェ → 写真必須！<br>
+            ● うずしお科学館（別途入場料）<br>
+            ● 大鳴門橋の大パノラマ<br>
+            ● お土産：島ビスケ・玉ねぎドレッシングなど300品以上
+          </div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.3212,134.8352&destination=34.2545,134.6845&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>陸の港西淡 → うずの丘（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- うずの丘→三宮 -->
+    <div class="entry">
+      <div class="time-col">
+        <span class="time-main">16:15</span>
+        <span class="time-arrow">↓</span>
+        <span class="time-end">18:05</span>
+      </div>
+      <div class="dot-col"><div class="dot bus"></div></div>
+      <div class="card">
+        <div class="card-top"><div class="card-title">うずの丘 → 陸の港西淡 → 三宮</div><span class="badge b-bus">計1時間50分</span></div>
+        <div class="tbox green">
+          <div class="tbox-title green">🚌 うずループ → 舞子・福良線</div>
+          <div class="trow"><span class="ttime green">16:15発</span><span class="tstop">うずの丘 → 16:40 陸の港西淡着</span></div>
+          <div class="trow"><span class="ttime green">17:xx発</span><span class="tstop">陸の港西淡 → 18:05ごろ 三宮着</span></div>
+          <div class="tnote green">※三宮着後、万葉の湯まで無料シャトル（毎時20分発）または徒歩15分</div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.3212,134.8352&destination=34.6778,135.1836&travelmode=transit" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>陸の港西淡 → 三宮・万葉の湯（経路）
+        </a>
+      </div>
+    </div>
+
+    <!-- 万葉の湯 -->
+    <div class="entry">
+      <div class="time-col"><span class="time-main">18:20〜</span></div>
+      <div class="dot-col"><div class="dot manyo"></div></div>
+      <div class="card manyo-card">
+        <div class="card-top"><div class="card-title">♨ 神戸ハーバーランド温泉 万葉倶楽部</div><span class="badge b-manyo">24H営業</span></div>
+        <div class="card-body">JR神戸駅から徒歩5分。18Fの展望足湯から神戸の夜景を楽しんで旅の締めに！</div>
+        <div class="tbox teal">
+          <div class="tbox-title teal">♨ 万葉の湯 アクセス・料金</div>
+          <div class="trow"><span class="ttime teal" style="min-width:56px">三宮から</span><span class="tstop">無料シャトル（毎時20分発）約15分</span></div>
+          <div class="trow"><span class="ttime teal" style="min-width:56px">神戸駅から</span><span class="tstop">徒歩5分・地下鉄ハーバーランド駅3分</span></div>
+          <div class="trow"><span class="ttime teal" style="min-width:56px">入館料</span><span class="tstop">大人2,950円（館内着・タオル込）</span></div>
+          <div class="trow"><span class="ttime teal" style="min-width:56px">電話</span><span class="tstop">078-371-4126</span></div>
+        </div>
+        <a class="map-btn" href="https://www.google.com/maps/dir/?api=1&origin=34.6913,135.1956&destination=34.6778,135.1836&travelmode=walking" target="_blank">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>三宮 → 万葉倶楽部（徒歩経路）
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer" id="info">
+  <div class="footer-h">📋 緊急連絡先 & 予約</div>
+  <div class="frow"><span class="flabel">夢海游 予約</span><span class="fval">0570-079-922<br>（送迎バス要事前予約）</span></div>
+  <div class="frow"><span class="flabel">タクシー①</span><span class="fval">淡路市共同配車<br>0799-72-3050</span></div>
+  <div class="frow"><span class="flabel">タクシー②</span><span class="fval">淡路交通タクシー<br>0799-22-3101</span></div>
+  <div class="frow"><span class="flabel">うずの丘</span><span class="fval">0799-52-2288<br>（火曜定休・6/4水曜はOK）</span></div>
+  <div class="frow"><span class="flabel">万葉の湯</span><span class="fval">078-371-4126（24時間）</span></div>
+  <div class="frow"><span class="flabel">ジェノバライン</span><span class="fval">078-935-1234（明石港）</span></div>
+  <hr class="fhr">
+  <div class="footer-h">🔗 便利リンク</div>
+  <div class="frow"><span class="flabel">バス検索</span><a class="flink" href="https://busmo.656.ch" target="_blank">busmo.656.ch</a></div>
+  <div class="frow"><span class="flabel">うずループ</span><a class="flink" href="https://www.city.minamiawaji.hyogo.jp/soshiki/shoukou/uzuloopbus.html" target="_blank">南あわじ市HP（時刻表）</a></div>
+  <div class="frow"><span class="flabel">ジェノバライン</span><a class="flink" href="https://www.jenova-line.co.jp" target="_blank">jenova-line.co.jp</a></div>
+  <div class="frow"><span class="flabel">万葉の湯</span><a class="flink" href="https://www.manyo.co.jp/kobe/" target="_blank">manyo.co.jp/kobe</a></div>
+  <hr class="fhr">
+  <div class="fdis">バスの時刻は参考値です。出発前に必ず最新情報をご確認ください。<br>うずループは2026年6月30日まで運行。</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a class="bnav-item active" href="#top">
+    <span class="bnav-icon">🏠</span>トップ
+  </a>
+  <a class="bnav-item" href="#day1">
+    <span class="bnav-icon">1️⃣</span>1日目
+  </a>
+  <a class="bnav-item" href="#day2">
+    <span class="bnav-icon">2️⃣</span>2日目
+  </a>
+  <a class="bnav-item" href="#info">
+    <span class="bnav-icon">📋</span>連絡先
+  </a>
+</nav>
+
+<script>
+// ボトムナビのactive状態を更新
+const sections = ['top','day1','day2','info'];
+const items = document.querySelectorAll('.bnav-item');
+window.addEventListener('scroll', () => {
+  let current = 'top';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(el && window.scrollY >= el.offsetTop - 80) current = id;
+  });
+  items.forEach((item, i) => {
+    item.classList.toggle('active', item.getAttribute('href') === '#' + sections[i] && sections[i] === current);
+  });
+});
+</script>
+
+</body>
+</html>
